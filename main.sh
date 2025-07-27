@@ -67,7 +67,6 @@ confirm_installation() {
 
 perform_installation() {
   setup_partitions
-  setup_encryption
   create_filesystems
   mount_filesystems
   #move_log
