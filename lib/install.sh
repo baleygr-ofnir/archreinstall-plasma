@@ -5,6 +5,7 @@ SCRIPT_DIR=/tmp/archreinstall-plasma
 
 install_base_system() {
   echo "Installing base system..."
+  rm /mnt/boot/{amd-ucode.img,initramfs-linux-zen-fallback.img,initramfs-linux-zen.img,vmlinuz-linux-zen}
   pacstrap /mnt base \
     linux-zen \
     linux-zen-headers \
@@ -39,7 +40,7 @@ create_chroot_script() {
   #!/bin/bash
   # Configuration script for chroot environment
   set -e
-
+  
   # Set timezone
   echo "Setting timezone..."
   ln -sf /usr/share/zoneinfo/TIMEZONE_PLACEHOLDER /etc/localtime
