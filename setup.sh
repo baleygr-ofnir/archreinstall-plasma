@@ -1,7 +1,7 @@
 #!/bin/bash
 # setup.sh - Setup and run the modular Arch Linux installation
 set -e
-NAME="archinstall-plasma"
+NAME="archreinstall-plasma"
 SOURCE="https://github.com/baleygr-ofnir/${NAME}.git"
 INSTALL_DIR="/tmp/${NAME}"
 
