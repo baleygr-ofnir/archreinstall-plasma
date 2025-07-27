@@ -25,6 +25,8 @@ setup_partitions() {
 create_filesystems() {
   echo "Creating filesystems..."
 
+  mkfs.btrfs -L sysvol -f "$SYSVOL_PART"
+
   # Create system subvolumes
   mount "$SYSVOL_PART" /mnt
   btrfs subvolume create /mnt/@
