@@ -1,7 +1,7 @@
 #!/bin/bash
 # lib/install.sh - Base system installation and configuration functions
 # Install base system
-SCRIPT_DIR=/tmp/archinstall-plasma
+SCRIPT_DIR=/tmp/archreinstall-plasma
 
 install_base_system() {
   echo "Installing base system..."
