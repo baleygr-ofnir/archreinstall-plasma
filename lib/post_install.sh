@@ -54,7 +54,7 @@ gum confirm "Install development tools?" && paru -S --needed --noconfirm \
     code \
     drawio-desktop-bin \
     jdk-temurin \
-    jetbrains-toolkit
+    jetbrains-toolbox
 
 # KVM
 gum confirm "Install packages for KVM/QEMU with virt-manager?" && paru -S --needed --noconfirm \
