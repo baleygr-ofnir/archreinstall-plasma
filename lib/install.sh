@@ -112,14 +112,14 @@ create_chroot_script() {
   
   # Set locale
   echo "Setting locale..."
-  for locale in \
-      "en_US.UTF-8 UTF-8" \
-      "en_GB.UTF-8 UTF-8" \
-      "sv_SE.UTF-8 UTF-8"
-  do
-    echo "${locale}" | tee -a /etc/locale.gen
-  done
+
+  cat >> /etc/locale.gen << 'LOCALEGEN_EOF'
+  en_US.UTF-8 UTF-8
+  en_GB.UTF-8 UTF-8
+  sv_SE.UTF-8 UTF-8
+  LOCALEGEN_EOF
   locale-gen
+  sleep 2
   echo "LANG=en_GB.UTF-8" > /etc/locale.conf
   sleep 2
 

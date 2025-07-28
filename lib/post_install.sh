@@ -7,7 +7,7 @@ makepkg -si --noconfirm
 cd
 sleep 2
 echo "Installing system packages, tools and messaging apps. Agree to handle jack2 conflict for pipewire-jack package. (User password and several confirmations will be required)" 
-pacman -Syu --needed \
+sudo pacman -Syu --needed \
     pipewire \
     pipewire-audio \
     pipewire-pulse \
