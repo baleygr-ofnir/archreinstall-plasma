@@ -18,7 +18,7 @@ install_base_system() {
     networkmanager \
     plymouth \
     plasma-meta \
-    sudo
+    sudo 
   # Generate fstab
   genfstab -U /mnt >> /mnt/etc/fstab
 }
@@ -77,9 +77,11 @@ create_chroot_script() {
     gum \
     kitty \
     realtime-privileges \
+    rsync \
     ttf-jetbrains-mono-nerd \
     timeshift \
     tmux \
+    wget \
     zsh \
     zsh-autocomplete \
     zsh-autosuggestions \
@@ -101,8 +103,8 @@ create_chroot_script() {
   sleep 2
   
   # User config
-  cp /root/post_install.sh /home/USERNAME_PLACEHOLDER
-  cp -r /root/.* /home/USERNAME_PLACEHOLDER
+  rsync -avP /root/post_install.sh /home/USERNAME_PLACEHOLDER
+  rsync -avP /root/.* /home/USERNAME_PLACEHOLDER
   chown -R 1000:1000 /home/USERNAME_PLACEHOLDER
   chmod +x /home/USERNAME_PLACEHOLDER/post_install.sh
   chmod +x /home/USERNAME_PLACEHOLDER/.local/bin/timeshift-wayland
@@ -110,13 +112,12 @@ create_chroot_script() {
   
   # Set locale
   echo "Setting locale..."
-  mv /etc/locale.gen /etc/locale.gen.bak
   for locale in \
       "en_US.UTF-8 UTF-8" \
       "en_GB.UTF-8 UTF-8" \
       "sv_SE.UTF-8 UTF-8"
   do
-    echo "${locale}" >> /etc/locale.gen
+    echo "${locale}" | tee -a /etc/locale.gen
   done
   locale-gen
   echo "LANG=en_GB.UTF-8" > /etc/locale.conf
@@ -145,7 +146,6 @@ create_chroot_script() {
   # Enable package cache cleanup
   echo "Enabling automatic package cache cleanup..."
   systemctl enable firewalld.service NetworkManager.service paccache.timer sddm.service
-
 
   # Cleanup
   echo "Cleaning up package cache..."

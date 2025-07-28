@@ -7,7 +7,7 @@ makepkg -si --noconfirm
 cd
 sleep 2
 echo "Installing system packages, tools and messaging apps. Agree to handle jack2 conflict for pipewire-jack package. (User password and several confirmations will be required)" 
-paru -Syu --needed \
+pacman -Syu --needed \
     pipewire \
     pipewire-audio \
     pipewire-pulse \
@@ -22,38 +22,42 @@ paru -Syu --needed \
     libwireplumber \
     pavucontrol \
     sof-firmware \
-    libinput \
+    libinput
+
+paru -S --needed --noconfirm \
     otf-font-awesome \
     ttf-liberation \
     ttf-liberation-mono-nerd \
     ttf-jetbrains-mono-nerd \
-    ttf-ms-win11-auto \
+    ttf-ms-win11-auto
+
+paru -S --needed --noconfirm \
     vivaldi-snapshot \
-    vivaldi-snapshot-ffmpeg-codecs \
+    vivaldi-snapshot-ffmpeg-codecs
+
+gum confirm "Install messaging apps? Signal, Vesktop (Discord), ZapZap (WhatsApp)" && paru -S --needed --noconfirm \
     signal-desktop \
     vesktop-bin \
-    zapzap \
+    zapzap
+
+paru -S --needed --noconfirm \
     mpv \
     oh-my-zsh-git \
     oh-my-posh-bin \
-    p7zip \
-    p7zip-gui \
-    rsync \
-    zoxide \
-    wget
+    p7zip
 
 systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service
 
-gum confirm "Install OnlyOffice desktop editors? (Free open-source Microsoft Office clone)" && paru -S --noconfirm onlyoffice-bin
+gum confirm "Install OnlyOffice desktop editors? (Free open-source Microsoft Office clone)" && paru -S --needed --noconfirm onlyoffice-bin
 
-gum confirm "Install development tools?" && paru -S --noconfirm \
+gum confirm "Install development tools?" && paru -S --needed --noconfirm \
     code \
     drawio-desktop-bin \
     jdk-temurin \
-    jetbrains-toolkit \
+    jetbrains-toolkit
 
 # KVM
-gum confirm "Install packages for KVM/QEMU with virt-manager?" && paru -S --noconfirm \
+gum confirm "Install packages for KVM/QEMU with virt-manager?" && paru -S --needed --noconfirm \
     virt-manager \
     libvirt \
     libvirt-dbus \
@@ -101,11 +105,10 @@ gum confirm "Install packages for KVM/QEMU with virt-manager?" && paru -S --noco
     qemu-user-static-binfmt \
     dnsmasq \
     openbsd-netcat \
-    dmidecode && \
-    sudo systemctl enable --now libvirtd.service libvirtd.socket
+    dmidecode
 
 # Gaming
-gum confirm "Install packages for gaming?" && paru -S --noconfirm \
+gum confirm "Install packages for gaming?" && paru -S --needed --noconfirm \
     steam \
     lutris \
     heroic-games-launcher-bin \
@@ -115,6 +118,7 @@ gum confirm "Install packages for gaming?" && paru -S --noconfirm \
     wine-gecko \
     gamemode \
     lib32-gamemode \
+    gamescope \
     mangohud \
     mesa \
     lib32-mesa \
@@ -124,36 +128,6 @@ gum confirm "Install packages for gaming?" && paru -S --noconfirm \
     vulkan-icd-loader \
     vulkan-radeon \
     lib32-vulkan-radeon
-
-if [ ! -d ${HOME}/.oh-my-zsh ]; then
-    mkdir -p ${HOME}/.oh-my-zsh/custom
-    cat<<'ZSH_EOF' > ${HOME}/.oh-my-zsh/custom/environment.zsh
-export TERM=xterm-256color
-
-autoload -U select-word-style
-select-word-style bash
-
-bindkey "^[[H" beginning-of-line
-bindkey "^[[F" end-of-line
-bindkey "^[[3~" delete-char
-bindkey "^[[3;5~" kill-word
-bindkey "^H" backward-kill-word
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-
-PATH=$USER/.local/sh:$USER/.local/bin:$PATH
-ZSH_EOF
-fi
-
-
-if [ ! -d ${HOME}/.config/kitty ]; then
-cat<<'KITTY_EOF' > ${HOME}/.config/kitty/custom.conf
-term xterm-256color
-enable_audio_bell no
-map ctrl+delete no_op
-map ctrl+shift+delete send_text all \x1b[3;5~
-KITTY_EOF
-fi
 
 gum confirm "Configure Swedish locale settings?" && for se_locale in \
       "LC_NUMERIC=sv_SE.UTF-8" \
